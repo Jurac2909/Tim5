@@ -24,6 +24,7 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              {% if request.user.is_authenticated %}
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="/">Home</a>
               </li>
@@ -32,48 +33,39 @@
                   Proizvodi
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="{% url 'category' 'CI'%}">Čišćenje</a></li>
                   <li><a class="dropdown-item" href="{% url 'category' 'LO'%}">Losioni</a></li>
                   <li><a class="dropdown-item" href="{% url 'category' 'MA'%}">Maske</a></li>
                   <li><a class="dropdown-item" href="{% url 'category' 'IS'%}">Izvorni Serumi</a></li>
                   <li><a class="dropdown-item" href="{% url 'category' 'CS'%}">Ciljani Serumi</a></li>
                   <li><a class="dropdown-item" href="{% url 'category' 'KR'%}">Kreme</a></li>
                   <li><a class="dropdown-item" href="{% url 'category' 'ZS'%}">Završni Serumi</a></li>
-                  <li><a class="dropdown-item" href="{% url 'category' 'KP'%}">Kemijski Pilinzi</a></li>
-                  <li><a class="dropdown-item" href="{% url 'category' 'GP'%}">Green Peel</a></li>
-                   
                 </ul>
               </li>
             </ul>
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
           </div>
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item dropdown mx-2">
               <a class = "nav-link dropdown-toggle text-white" href ="#"
               id="profileDropdown" role="button" data-bs-toggle ="dropdown"
-              aria-expanded="False">Jurica</a>
+              aria-expanded="False">{{user}}</a>
               <ul class = "dropdown-menu" aria-labelledby="profileDropdown">
-                <li><a class="dropdown-item" href="{% url 'profile' %}">Profil</a></li>
-                <li><a class="dropdown-item" href="#">Narudžbe</a></li>
-                <li><a class="dropdown-item" href="#">Change Password</a></li>
-                <li><a class="dropdown-item" href="#">Logout</a></li>
+                <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
+                <li><a class="dropdown-item" href="{% url 'passwordchange' %}">Change Password</a></li>
+                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
               </ul>
             </li>
             <li class ="nav-item mx-2">
-              <a href= "#" class = "nav-link text-white">Cart4 4</a>
+              <a href= "{% url 'showcart' %}" class = "nav-link text-white">
+                {% if totalitem > 0 %} <span class="badge bg-danger"> {{totalitem}} {% endif %} </span> Cart</a>
             </li>
-            <li class ="nav-item mx-2">
-              <a href= "#" class = "nav-link text-white">Wishlist</a>
-            </li>
+            {% else %}
             <li class ="nav-item mx-2">
               <a href= "{% url 'login' %}" class = "nav-link text-white">Login</a>
             </li>
             <li class ="nav-item mx-2">
               <a href= "{% url 'customerregistration' %}" class = "nav-link text-white">Registration</a>
             </li>
+            {% endif %}
           </ul>
         </div>
       </nav>
@@ -90,8 +82,8 @@
 
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     
-    <script script ="{% static 'app/js/owl.carousel.min.js' %}"></script>
-    <script script ="{% static 'app/js/all.min.js' %}"></script>
-    <script script ="{% static 'app/js/script.js' %}"></script>
+    <script src ="{% static 'app/js/owl.carousel.min.js' %}"></script>
+    <script src ="{% static 'app/js/all.min.js' %}"></script>
+    <script src ="{% static 'app/js/myscript.js' %}"></script>
 </body>
 </html>

@@ -32,4 +32,40 @@ class Customer(models.Model):
     zipcode = models.IntegerField()
     def __str__(self):
         return self.name
+    
+STATUS_CHOICES= (
+    ('Accepted','Accepted'),
+    ('Packed','Packed'),
+    ('On The Way','On The Way'),
+    ('Delivered','Delivered'),
+    ('Cancel','Cancel'),
+    ('Pending','Pending'),
+)
+class Payment(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    amount = models.FloatField()
+    paid = models.BooleanField(default=False)
+    
+class Cart(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    quantity = models.PositiveBigIntegerField(default=1)
+
+    @property
+    def total_cost(self):
+        return self.quantity * self.product.selling_price
+
+class OrderPlaced(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    quantity = models.PositiveBigIntegerField(default=1)
+    ordered_date = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Pending')
+    payment = models.ForeignKey(Payment, on_delete=models.CASCADE, default="")
+    
+    @property
+    def total_cost(self):
+        return self.quantity * self.product.selling_price
+
 
